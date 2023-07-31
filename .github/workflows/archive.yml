@@ -36,15 +36,16 @@ jobs:
         id: check_archive_status
         working-directory: updateids
         run: |
-            if python ../update.py; then
-              echo "Archive script succeeded!"
-            else
-              echo "Archive script failed!"
-              exit 1
-            fi
+          if python ../update.py; then
+            echo "Archive script succeeded!"
+            echo "STATUS=success" >> $GITHUB_ENV
+          else
+            echo "Archive script failed!"
+            exit 1
+          fi
 
       - name: Commit and push changes - updated list
-        if: ${{ failure() }}  # Stop the workflow if "Run Archive script" fails
+        if: env.STATUS == 'success'  # Only run if "Run Archive script" succeeds
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -53,10 +54,10 @@ jobs:
           git push origin ${{ github.ref }}
 
       - name: Increment UpdateID in update.py
-        if: ${{ failure() }}  # Stop the workflow if "Run Archive script" fails
+        if: env.STATUS == 'success'  # Only run if "Run Archive script" succeeds
         run: |
           # Read the current number from the file
-          with open('./update.py', 'r') as f:
+          with open('../update.py', 'r') as f:
               content = f.read()
               current_number = int(content.strip().split('_')[-1])
 
@@ -67,7 +68,7 @@ jobs:
           updated_content = content.replace(f'output_{current_number}', f'output_{new_number}')
 
           # Write the updated content back to the file
-          with open('./update.py', 'w') as f:
+          with open('../update.py', 'w') as f:
               f.write(updated_content)
 
       - name: Commit and push changes - update.py
