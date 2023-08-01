@@ -95,6 +95,15 @@ jobs:
           with open('./update.py', 'w') as f:
             f.write(updated_content)
 
+      - name: Commit and push changes - updateids
+        if: steps.check_archive_status.outputs.STATUS == 'success'  # Only run if "Run Archive script" succeeded
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./updateids
+          git commit -m "Updated updateids"
+          git push origin ${{ github.ref }}
+
       - name: Commit and push changes - update.py
         if: steps.check_archive_status.outputs.STATUS == 'success'  # Only run if "Run Archive script" succeeded
         run: |
