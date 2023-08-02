@@ -18,7 +18,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          echo "Installing dependencies and caching them."
+          echo "Installing dependencies"
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         continue-on-error: false  # Set this to false to stop the workflow if the step fails
