@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <s:Header>
+        <a:Action s:mustUnderstand="1">http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService/GetExtendedUpdateInfo2Response</a:Action>
+        <a:RelatesTo>urn:uuid:79626673-9045-4fae-906e-7a3424011d62</a:RelatesTo>
+        <o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" s:mustUnderstand="1">
+            <u:Timestamp u:Id="_0">
+                <u:Created>2023-09-15T00:34:24.464Z</u:Created>
+                <u:Expires>2023-09-15T00:39:24.464Z</u:Expires>
+            </u:Timestamp>
+        </o:Security>
+    </s:Header>
+    <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <GetExtendedUpdateInfo2Response xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+            <GetExtendedUpdateInfo2Result>
+                <FileLocations>
+                    <FileLocation>
+                        <FileDigest>UFRoYO6/MS5ap45D//8OcfN7+zY=</FileDigest>
+                        <Url>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/0a33d092-4767-4f57-ab6f-068355fd839b?P1=1694738684&amp;P2=404&amp;P3=2&amp;P4=UF7CAxlZsYlWNLOo%2bOiwIuBGUQSb3zKj0eQy6OCPqsJsMKscfcx3pRwXP82h6DiOK0bIYNArJ31rPQAghVXiRw%3d%3d</Url>
+                    </FileLocation>
+                    <FileLocation>
+                        <FileDigest>QEKWx6/u/ACSha6bppw4QQH186k=</FileDigest>
+                        <Url>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/1f4a804e-951a-4da9-8821-72ebed6c2380?P1=1694738724&amp;P2=404&amp;P3=2&amp;P4=Hvw2GW5S%2b0Gr%2bQNiKZcGNHGzKdHd1tlc%2fVap63%2bBeiU01%2bVttIwsafhUWrl8mfct8pNtQa0l2or%2bLDt5W%2baxgg%3d%3d</Url>
+                    </FileLocation>
+                    <FileLocation>
+                        <FileDigest>N63T1ngVT4mldQEAURDfSkUXCms=</FileDigest>
+                        <Url>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/6f0bc453-83bf-486f-8168-542b84f69f3a?P1=1694738684&amp;P2=404&amp;P3=2&amp;P4=WsZ9YlucWPJApUQoB0p95nFLEkkO8JiAj3esb%2bl7v9Fpwx%2fAkjZ39%2f57keLHmw2yKzh7xPNJ0Q0maWozVyqEcQ%3d%3d</Url>
+                    </FileLocation>
+                    <FileLocation>
+                        <FileDigest>Amo5UJ0hPVNQXWQX4UChHThP8d0=</FileDigest>
+                        <Url>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/b555ecd3-eeb0-465c-9035-5a1e3c48e521?P1=1694738684&amp;P2=404&amp;P3=2&amp;P4=Rv%2b4lHN3%2bbHbAw8%2flKI%2foKh0Lv0VWRCXBdxjsV1evl3Y%2bzYt%2fbH6oWlCeOQhEKt9aBKEVe5vlMyAGdZvfL3RAQ%3d%3d</Url>
+                    </FileLocation>
+                </FileLocations>
+            </GetExtendedUpdateInfo2Result>
+        </GetExtendedUpdateInfo2Response>
+    </s:Body>
+</s:Envelope>
