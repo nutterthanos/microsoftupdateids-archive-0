@@ -97,7 +97,7 @@ async def main():
     end_revision = 10
 
     # Populate the queue with UpdateIDs and RevisionNumbers
-    with open('../output_files/output_0.txt', 'r') as f:
+    with open('../output_files/output_1.txt', 'r') as f:
         for line in f:
             update_id = line.strip()  # Read the UpdateID as a string
             for revision in range(start_revision, end_revision + 1):
