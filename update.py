@@ -39,7 +39,7 @@ data = '''<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="ht
             <updateIDs>
                 <UpdateIdentity>
                     <UpdateID>{}</UpdateID>
-                    <RevisionNumber>1</RevisionNumber>
+                    <RevisionNumber>{revision}</RevisionNumber>
                 </UpdateIdentity>
             </updateIDs>
             <infoTypes>
@@ -54,18 +54,18 @@ data = '''<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="ht
     </s:Body>
 </s:Envelope>'''
 
-async def download_update(sem: asyncio.Semaphore, update_id: str) -> None:
-    logging.info(f"Starting download for UpdateID: {update_id}")
+async def download_update(sem: asyncio.Semaphore, update_id: str, revision: int) -> None:
+    logging.info(f"Starting download for UpdateID: {update_id}, RevisionNumber: {revision}")
     async with sem:
         while True:
             try:
-                # Download update for the given UpdateID
-                logging.info(f"Downloading update for UpdateID {update_id}")
+                # Download update for the given UpdateID and RevisionNumber
+                logging.info(f"Downloading update for UpdateID {update_id}, RevisionNumber: {revision}")
                 async with aiohttp.ClientSession() as session:
                     async with session.post(
                         'https://fe3cr.delivery.mp.microsoft.com/ClientWebService/client.asmx/secured',
                         headers=headers,
-                        data=data.format(update_id),  # Fill in the UpdateID in the SOAP request
+                        data=data.format(update_id, revision=revision),  # Fill in UpdateID and RevisionNumber
                         ssl=False,
                     ) as response:
                         # Prettify the XML string using xml.dom.minidom
@@ -78,31 +78,36 @@ async def download_update(sem: asyncio.Semaphore, update_id: str) -> None:
                             break  # Skip this update and proceed to the next one
 
                         # Save the XML response to the file if <url> element exists
-                        filename = f"{update_id}.xml"
+                        filename = f"{update_id}_Rev{revision}.xml"
                         async with aiofiles.open(filename, mode='wb') as f:
                             await f.write(pretty_xml)  # Write the bytes directly to the file
 
-                logging.info(f"Download for UpdateID: {update_id} completed")
+                logging.info(f"Download for UpdateID: {update_id}, RevisionNumber: {revision} completed")
                 break
             except Exception as e:
-                logging.exception(f"Failed to download update for UpdateID {update_id}, will retry in 5 seconds")
+                logging.exception(f"Failed to download update for UpdateID {update_id}, RevisionNumber: {revision}, will retry in 5 seconds")
                 await asyncio.sleep(5)
 
 async def main():
     sem = asyncio.Semaphore(max_concurrent_requests)
     queue = asyncio.Queue()
 
-    # Populate the queue with UpdateIDs (you need to replace 'your_file.txt' with the actual file name)
-    with open('../output_files/output_1.txt', 'r') as f:
+    # Define the range of RevisionNumber values you want to download
+    start_revision = 1
+    end_revision = 1000
+
+    # Populate the queue with UpdateIDs and RevisionNumbers
+    with open('../output_files/output_0.txt', 'r') as f:
         for line in f:
             update_id = line.strip()  # Read the UpdateID as a string
-            await queue.put(update_id)
+            for revision in range(start_revision, end_revision + 1):
+                await queue.put((update_id, revision))
 
     tasks = []
-    # Create tasks to download updates for each UpdateID
+    # Create tasks to download updates for each UpdateID and RevisionNumber
     while not queue.empty():
-        update_id = await queue.get()
-        task = asyncio.create_task(download_update(sem, update_id))
+        update_id, revision = await queue.get()
+        task = asyncio.create_task(download_update(sem, update_id, revision))
         tasks.append(task)
 
     # Wait for all tasks to complete
