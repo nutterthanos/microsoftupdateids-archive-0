@@ -93,11 +93,11 @@ async def main():
     queue = asyncio.Queue()
 
     # Define the range of RevisionNumber values you want to download
-    start_revision = 1
-    end_revision = 10
+    start_revision = 11
+    end_revision = 50
 
     # Populate the queue with UpdateIDs and RevisionNumbers
-    with open('../output_files/output_1.txt', 'r') as f:
+    with open('../output_files/output_0.txt', 'r') as f:
         for line in f:
             update_id = line.strip()  # Read the UpdateID as a string
             for revision in range(start_revision, end_revision + 1):
