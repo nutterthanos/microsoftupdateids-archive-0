@@ -94,7 +94,7 @@ async def main():
 
     # Define the range of RevisionNumber values you want to download
     start_revision = 1
-    end_revision = 1000
+    end_revision = 10
 
     # Populate the queue with UpdateIDs and RevisionNumbers
     with open('../output_files/output_0.txt', 'r') as f:
